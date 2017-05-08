@@ -196,3 +196,6 @@ target_link_libraries(offb_node ${catkin_LIBRARIES})
 add_executable(gazebo_to_mavros src/gazebo_to_mavros.cpp)
 target_link_libraries(gazebo_to_mavros ${catkin_LIBRARIES})
 
+add_executable(ros_simple_app src/ros_simple_app.cpp)
+target_link_libraries(ros_simple_app ${catkin_LIBRARIES})
+
