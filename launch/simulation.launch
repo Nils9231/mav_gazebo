@@ -4,6 +4,6 @@
   
   <node name="offb_node" pkg="mav_gazebo" type="offb_node"/>
 
-  <node name="gazebo_to_mavros" pkg="mav_gazebo" type="gazebo_to_mavros"/>
+  <node name="gazebo_to_mavros" pkg="mav_gazebo" type="gazebo_to_mavros" output="screen"/>
 
 </launch>

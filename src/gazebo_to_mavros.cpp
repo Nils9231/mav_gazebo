@@ -5,6 +5,7 @@
 */
 
 
+#include <string>
 #include "ros/ros.h"
 #include <gazebo_msgs/ModelStates.h>                // including the required messages
 #include <geometry_msgs/PoseStamped.h>
@@ -17,13 +18,33 @@ and publishes it to the /mavros/mocap/pose topic of the mavros package.
 //using global coordinates to store the subscribed data
 geometry_msgs::PoseStamped msg_out;
 
+// Global variables to find the model number of the array
+std::string modelName = "hippocampus";      // model name in gazebo
+int modelNumber = 0;                        // index
+bool check = false;                         // boolean, true if correct model index has been found
+int maxModelNumber = 3;                     // maximum number of models in gazebo
+
 // Callback function to subscribe to the gazebo modelStates data
 void modelStatesCallback(const gazebo_msgs::ModelStates::ConstPtr& msg)
 {
-    int i = 1;    // this is the model number of the hippocampus in the gazebo simulator
-    msg_out.pose.position.x = msg->pose[i].position.x;      // storing the subscribed data in PoseStamped msg to publish them
-    msg_out.pose.position.y = msg->pose[i].position.y;
-    msg_out.pose.position.z = msg->pose[i].position.z;
+    // Find the correct model in the array data
+    while(!check) {
+        if(!modelName.compare(msg->name[modelNumber])) {
+            check = true;
+            modelNumber--;
+            ROS_INFO("Model %s has been found! gazebo_to_mavros node works correctly!", modelName.c_str());
+        }
+        modelNumber++;
+        if(modelNumber > maxModelNumber) {
+            ROS_ERROR("No %s model found! Check gazebo_to_mavros.cpp! Closing the node!", modelName.c_str());
+            exit(0);
+        }
+    }
+
+    // storing the subscribed data in PoseStamped msg to publish them
+    msg_out.pose.position.x = msg->pose[modelNumber].position.x;
+    msg_out.pose.position.y = msg->pose[modelNumber].position.y;
+    msg_out.pose.position.z = msg->pose[modelNumber].position.z;
 
     /*// this can be used for debugging
     ROS_INFO("%s positions:\t%8.4f\t%8.4f\t%8.4f",
