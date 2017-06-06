@@ -41,9 +41,9 @@ void modelStatesCallback(const gazebo_msgs::ModelStates::ConstPtr& msg)
         }
     }
 
-    // storing the subscribed data in PoseStamped msg to publish them
-    msg_out.pose.position.x = msg->pose[modelNumber].position.x;
-    msg_out.pose.position.y = msg->pose[modelNumber].position.y;
+    // storing the subscribed data in PoseStamped msg to publish them, thereby transforming with matrix x = -y, y = x, z = z
+    msg_out.pose.position.x = -msg->pose[modelNumber].position.y;        //position
+    msg_out.pose.position.y = msg->pose[modelNumber].position.x;
     msg_out.pose.position.z = msg->pose[modelNumber].position.z;
 
     /*// this can be used for debugging
