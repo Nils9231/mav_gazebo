@@ -5,6 +5,7 @@
  */
 
 #include <ros/ros.h>
+#include <geometry_msgs/PoseStamped.h>
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/State.h>
@@ -49,7 +50,7 @@ int main(int argc, char **argv)
     if(ros::ok()){                                      // check if the mode is OFFBOARD and the system is armed
         if( current_state.mode != "OFFBOARD") {
             if( set_mode_client.call(offb_set_mode) &&
-                offb_set_mode.response.success){
+                offb_set_mode.response.mode_sent){
                 ROS_INFO("Offboard enabled");
             }
         }

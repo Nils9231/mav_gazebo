@@ -46,12 +46,13 @@ void modelStatesCallback(const gazebo_msgs::ModelStates::ConstPtr& msg)
     msg_out.pose.position.y = msg->pose[modelNumber].position.y;
     msg_out.pose.position.z = msg->pose[modelNumber].position.z;
 
-    /*// this can be used for debugging
-    ROS_INFO("%s positions:\t%8.4f\t%8.4f\t%8.4f",
-                msg->name[i].c_str(),
-                msg->pose[i].position.x,
-                msg->pose[i].position.y,
-                msg->pose[i].position.z);*/
+    // this can be used for debugging - use loop for multiple vehicles
+    /*ROS_INFO("%s positions:\t%8.4f\t%8.4f\t%8.4f",
+                msg->name[modelNumber].c_str(),
+                msg->pose[modelNumber].position.x,
+                msg->pose[modelNumber].position.y,
+                msg->pose[modelNumber].position.z);*/
+
 }
 
 int main(int argc, char **argv)
@@ -68,10 +69,14 @@ int main(int argc, char **argv)
     
     // Publisher
     ros::Publisher pub_mocap = n.advertise<geometry_msgs::PoseStamped>("mavros/mocap/pose", 1);
+    ros::Publisher pub_vision = n.advertise<geometry_msgs::PoseStamped>("mavros/vision_pose/pose", 1);
+    //ros::Publisher pub_loc_pos = n.advertise<geometry_msgs::PoseStamped>("mavros/local_position/pose", 1);
 
     // loop which only ends if this node is killed or ROS is ended
     while(ros::ok()){
         pub_mocap.publish(msg_out);		// publishing
+        pub_vision.publish(msg_out);		// publishing
+        //pub_loc_pos.publish(msg_out);		// publishing
         ros::spinOnce();			// subscribing
         r.sleep();
     }
