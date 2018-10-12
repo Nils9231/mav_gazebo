@@ -199,3 +199,6 @@ target_link_libraries(gazebo_to_mavros ${catkin_LIBRARIES})
 add_executable(ros_simple_app src/ros_simple_app.cpp)
 target_link_libraries(ros_simple_app ${catkin_LIBRARIES})
 
+add_executable(uuv_communication src/uuv_communication.cpp)
+target_link_libraries(uuv_communication ${catkin_LIBRARIES})
+
