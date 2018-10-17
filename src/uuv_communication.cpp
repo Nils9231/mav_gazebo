@@ -54,13 +54,13 @@ int main(int argc, char **argv)
 
   ros::init(argc, argv, "uuv_com");
   ros::NodeHandle n;
-  ros::Subscriber sub1_pose = n.subscribe("uav1/mavros/local_position/pose", 1000, Pose1Callback);
+  ros::Subscriber sub1_pose = n.subscribe("uav1/mavros/local_position/pose", 1, Pose1Callback);
   //ros::Subscriber sub1_speed = n.subscribe("uav1/mavros/local_position/velocity", 1000, Pose1Callback);
-  ros::Publisher pub1_pose = n.advertise<geometry_msgs::PoseStamped>("uav2/mavros/setpoint_position/local/", 1000);
+  ros::Publisher pub1_pose = n.advertise<geometry_msgs::PoseStamped>("uav2/mavros/setpoint_position/local/", 1);
   //ros::Publisher pub1_speed = n.advertise<geometry_msgs::Twist>("/uav2/mavros/setpoint_velocity/cmd_vel_unstamped", 1000);
-  ros::Subscriber sub2_pose = n.subscribe("uav2/mavros/local_position/pose", 1000, Pose1Callback);
+  ros::Subscriber sub2_pose = n.subscribe("uav2/mavros/local_position/pose", 1, Pose2Callback);
   //ros::Subscriber sub2_speed = n.subscribe("uav2/mavros/local_position/velocity", 1000, Pose1Callback);
-  ros::Publisher pub2_pose = n.advertise<geometry_msgs::PoseStamped>("/uav1/mavros/setpoint_position/local/", 1000);
+  ros::Publisher pub2_pose = n.advertise<geometry_msgs::PoseStamped>("/uav1/mavros/setpoint_position/local/", 1);
   //ros::Publisher pub2_speed = n.advertise<geometry_msgs::Twist>("/uav1/mavros/setpoint_velocity/cmd_vel_unstamped", 1000);
   ros::Rate loop_rate(10);
 
